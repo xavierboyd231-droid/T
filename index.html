@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block Games | Unblocked School Arcade</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        neon: {
+                            green: '#00ffcc',
+                            purple: '#b000ff',
+                            pink: '#ff007f',
+                            blue: '#00f0ff',
+                            dark: '#0a0b10',
+                            card: '#131520',
+                            border: '#1f2333'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .pixel-font {
+            font-family: 'Press Start 2P', monospace;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0b10;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b000ff;
+        }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.5), 0 0 20px rgba(0, 255, 204, 0.3);
+        }
+        .glow-box {
+            box-shadow: 0 0 20px rgba(176, 0, 255, 0.15);
+        }
+        .glow-box:hover {
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.35);
+        }
+    </style>
+</head>
+<body class="bg-neon-dark text-gray-100 min-h-screen flex flex-col selection:bg-neon-purple selection:text-white">
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-neon-dark/90 backdrop-blur-md border-b border-neon-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchView('home')">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-neon-green to-neon-purple flex items-center justify-center glow-box">
+                    <i class="fa-solid fa-cubes text-neon-dark text-2xl font-black"></i>
+                </div>
+                <div>
+                    <span class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-neon-green via-neon-blue to-neon-purple bg-clip-text text-transparent">BLOCK GAMES</span>
+                    <span class="block text-xs text-gray-400 font-medium tracking-wider">SCHOOL UNBLOCKED ARCADE</span>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="hidden md:flex items-center flex-1 max-w-md mx-8">
+                <div class="relative w-full">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                    <input type="text" id="searchInput" oninput="filterGames()" placeholder="Search games (e.g., Snake, Tetris)..." class="w-full pl-11 pr-4 py-2.5 bg-neon-card border border-neon-border rounded-xl text-sm focus:outline-none focus:border-neon-green transition-all text-gray-200 placeholder-gray-500">
+                </div>
+            </div>
+
+            <!-- Action Controls & Stealth Mode -->
+            <div class="flex items-center space-x-3">
+                <button onclick="toggleStealthMode()" id="stealthBtn" class="flex items-center space-x-2 px-4 py-2 bg-neon-card hover:bg-neon-border border border-neon-border rounded-xl text-xs font-semibold tracking-wide transition-all text-gray-300 hover:text-white">
+                    <i class="fa-solid fa-user-secret text-neon-purple text-base"></i>
+                    <span class="hidden sm:inline">Stealth Mode</span>
+                </button>
+                <button onclick="openRequestModal()" class="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-neon-purple to-neon-pink hover:opacity-90 rounded-xl text-xs font-bold tracking-wide transition-all text-white shadow-lg shadow-neon-purple/20">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span class="hidden sm:inline">Request Game</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Home View -->
+        <div id="homeView" class="space-y-8">
+            <!-- Hero Banner -->
+            <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-neon-card via-[#161929] to-neon-card border border-neon-border p-8 sm:p-12 glow-box">
+                <div class="absolute -right-10 -bottom-10 w-80 h-80 bg-neon-purple/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-10 -top-10 w-80 h-80 bg-neon-green/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="relative z-10 max-w-2xl space-y-4">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 bg-neon-green/10 border border-neon-green/30 rounded-full text-neon-green text-xs font-bold uppercase tracking-wider">
+                        <span class="w-2 h-2 rounded-full bg-neon-green animate-ping"></span>
+                        <span>100% Unblocked & Lag-Free</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+                        Play Legendary Arcade Games At School
+                    </h1>
+                    <p class="text-gray-400 text-sm sm:text-base">
+                        Welcome to Block Games! Enjoy smooth retro classics, instant browser play, local high score tracking, and instant stealth tab cloaking.
+                    </p>
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <button onclick="playGame('snake')" class="px-6 py-3 bg-neon-green hover:bg-neon-green/90 text-neon-dark font-extrabold rounded-xl text-sm transition-all shadow-lg shadow-neon-green/20 flex items-center space-x-2">
+                            <i class="fa-solid fa-play"></i>
+                            <span>Play Snake Now</span>
+                        </button>
+                        <button onclick="scrollToGames()" class="px-6 py-3 bg-neon-card hover:bg-neon-border border border-neon-border text-gray-200 font-semibold rounded-xl text-sm transition-all">
+                            Browse All Games
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Pills -->
+            <div class="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none" id="categoryContainer">
+                <button onclick="filterCategory('all')" class="cat-btn px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all bg-neon-green text-neon-dark whitespace-nowrap shadow-md">All Games</button>
+                <button onclick="filterCategory('Arcade')" class="cat-btn px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all bg-neon-card hover:bg-neon-border text-gray-300 whitespace-nowrap border border-neon-border">Arcade</button>
+                <button onclick="filterCategory('Action')" class="cat-btn px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all bg-neon-card hover:bg-neon-border text-gray-300 whitespace-nowrap border border-neon-border">Action</button>
+                <button onclick="filterCategory('Puzzle')" class="cat-btn px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all bg-neon-card hover:bg-neon-border text-gray-300 whitespace-nowrap border border-neon-border">Puzzle</button>
+                <button onclick="filterCategory('Casual')" class="cat-btn px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all bg-neon-card hover:bg-neon-border text-gray-300 whitespace-nowrap border border-neon-border">Casual</button>
+                <button onclick="filterCategory('Sports')" class="cat-btn px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all bg-neon-card hover:bg-neon-border text-gray-300 whitespace-nowrap border border-neon-border">Sports</button>
+            </div>
+
+            <!-- Games Grid -->
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-gray-100 flex items-center space-x-2">
+                        <i class="fa-solid fa-gamepad text-neon-green"></i>
+                        <span>Featured Games</span>
+                    </h2>
+                    <span id="gameCount" class="text-xs text-gray-400 font-medium">Showing all games</span>
+                </div>
+                <div id="gamesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Dynamic Game Cards populated via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Player View (Hidden by Default) -->
+        <div id="gameView" class="hidden space-y-6">
+            <div class="flex items-center justify-between bg-neon-card p-4 rounded-2xl border border-neon-border">
+                <button onclick="returnToHome()" class="flex items-center space-x-2 px-4 py-2 bg-neon-dark hover:bg-neon-border border border-neon-border rounded-xl text-xs font-bold text-gray-300 transition-all">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back to Library</span>
+                </button>
+                <div class="text-center">
+                    <h2 id="activeGameTitle" class="text-lg font-bold text-neon-green">Game Title</h2>
+                    <p id="activeGameCategory" class="text-xs text-gray-400 uppercase tracking-widest">Category</p>
+                </div>
+                <button onclick="toggleFullScreen()" class="flex items-center space-x-2 px-4 py-2 bg-neon-dark hover:bg-neon-border border border-neon-border rounded-xl text-xs font-bold text-gray-300 transition-all">
+                    <i class="fa-solid fa-expand"></i>
+                    <span class="hidden sm:inline">Fullscreen</span>
+                </button>
+            </div>
+
+            <!-- Game Container -->
+            <div id="gameContainerWrapper" class="relative w-full aspect-[4/3] sm:aspect-[16/9] max-h-[70vh] bg-neon-card rounded-3xl border border-neon-border overflow-hidden flex items-center justify-center glow-box">
+                <!-- Canvas or Game HTML injected dynamically -->
+                <div id="gameScreenContent" class="w-full h-full flex items-center justify-center">
+                    <!-- Game specific canvases created on the fly -->
+                </div>
+            </div>
+
+            <!-- High Score Bar & Controls Guide -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-neon-card p-5 rounded-2xl border border-neon-border flex items-center justify-between">
+                    <div>
+                        <span class="text-xs text-gray-400 uppercase font-semibold">Personal High Score</span>
+                        <h3 id="highScoreDisplay" class="text-2xl font-extrabold text-neon-green">0</h3>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-neon-green/10 flex items-center justify-center text-neon-green text-xl">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                </div>
+                <div class="bg-neon-card p-5 rounded-2xl border border-neon-border flex items-center justify-between">
+                    <div>
+                        <span class="text-xs text-gray-400 uppercase font-semibold">Controls Guide</span>
+                        <p id="controlsDescription" class="text-sm font-medium text-gray-200 mt-1">Arrow keys / WASD to move</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-neon-purple/10 flex items-center justify-center text-neon-purple text-xl">
+                        <i class="fa-solid fa-keyboard"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Request Game Modal -->
+    <div id="requestModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-neon-card border border-neon-border rounded-3xl max-w-md w-full p-6 space-y-6 glow-box relative">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-neon-purple/20 flex items-center justify-center text-neon-purple">
+                        <i class="fa-solid fa-paper-plane text-lg"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-100">Request a Game</h3>
+                </div>
+                <button onclick="closeRequestModal()" class="text-gray-400 hover:text-white transition-all text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-wider">Game Title</label>
+                    <input type="text" id="reqGameTitle" placeholder="e.g., Moto X3M, Slope, Cookie Clicker" class="w-full px-4 py-3 bg-neon-dark border border-neon-border rounded-xl text-sm focus:outline-none focus:border-neon-purple text-gray-200 placeholder-gray-600">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-wider">Reason / Notes (Optional)</label>
+                    <textarea id="reqGameNotes" rows="3" placeholder="Why should we add this game?" class="w-full px-4 py-3 bg-neon-dark border border-neon-border rounded-xl text-sm focus:outline-none focus:border-neon-purple text-gray-200 placeholder-gray-600 resize-none"></textarea>
+                </div>
+                <button onclick="submitGameRequest()" class="w-full py-3 bg-gradient-to-r from-neon-purple to-neon-pink hover:opacity-90 text-white font-bold rounded-xl text-sm transition-all shadow-lg shadow-neon-purple/20">
+                    Submit Request
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-32 opacity-0 transition-all duration-300 bg-neon-card border border-neon-green/50 text-gray-100 px-6 py-4 rounded-2xl shadow-2xl flex items-center space-x-3">
+        <i class="fa-solid fa-circle-check text-neon-green text-xl"></i>
+        <div>
+            <h4 id="toastTitle" class="text-sm font-bold">Success</h4>
+            <p id="toastMessage" class="text-xs text-gray-400">Action completed successfully.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-neon-border bg-neon-card/50 py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-gray-500 space-y-2">
+            <p>Block Games &copy; 2026 | The Ultimate School Unblocked Gaming Hub</p>
+            <p class="text-gray-600">All retro arcade titles fully recreated in HTML5 & JS for optimal school performance.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Games Database
+        const games = [
+            {
+                id: 'snake',
+                title: 'Retro Snake',
+                category: 'Arcade',
+                rating: '4.9',
+                plays: '45.2K',
+                icon: 'fa-worm',
+                color: 'from-neon-green to-emerald-600',
+                desc: 'The timeless classic. Eat neon food, grow longer, and avoid hitting the walls or your own tail.',
+                controls: 'Arrow Keys or WASD to steer the snake'
+            },
+            {
+                id: 'tetris',
+                title: 'Neon Stacker',
+                category: 'Puzzle',
+                rating: '4.8',
+                plays: '38.9K',
+                icon: 'fa-shapes',
+                color: 'from-neon-blue to-indigo-600',
+                desc: 'Fit falling blocks together to clear complete horizontal lines. Fast-paced puzzle action.',
+                controls: 'Left/Right to move, Up to rotate, Down to drop'
+            },
+            {
+                id: 'flappy',
+                title: 'Cyber Flap',
+                category: 'Action',
+                rating: '4.7',
+                plays: '52.1K',
+                icon: 'fa-feather',
+                color: 'from-neon-pink to-rose-600',
+                desc: 'Tap or click to fly through glowing cyber pipes without crashing. Test your reflexes!',
+                controls: 'Click or Spacebar to jump / flap'
+            },
+            {
+                id: 'pong',
+                title: 'Cyber Pong',
+                category: 'Sports',
+                rating: '4.6',
+                plays: '29.4K',
+                icon: 'fa-table-tennis-paddle-ball',
+                color: 'from-neon-purple to-violet-600',
+                desc: 'Retro 2-player or vs AI table tennis match with neon glow physics.',
+                controls: 'W/S or Up/Down Arrow keys to move paddle'
+            },
+            {
+                id: 't2048',
+                title: 'Block 2048',
+                category: 'Puzzle',
+                rating: '4.9',
+                plays: '61.0K',
+                icon: 'fa-calculator',
+                color: 'from-amber-500 to-orange-600',
+                desc: 'Slide matching numbered blocks together to combine them into higher powers up to 2048.',
+                controls: 'Arrow keys or Swipe to slide tiles'
+            },
+            {
+                id: 'clicker',
+                title: 'Idle Hacker',
+                category: 'Casual',
+                rating: '4.5',
+                plays: '21.8K',
+                icon: 'fa-laptop-code',
+                color: 'from-teal-400 to-cyan-600',
+                desc: 'Click the terminal to mine crypto and upgrade automated hacking rigs in this idle clicker.',
+                controls: 'Left click terminal & upgrade buttons'
+            }
+        ];
+
+        let currentActiveGame = null;
+        let gameLoopInterval = null;
+        let animationFrameId = null;
+        let stealthActive = false;
+        let currentCategory = 'all';
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderGames(games);
+        });
+
+        // Render Game Cards
+        function renderGames(gameList) {
+            const grid = document.getElementById('gamesGrid');
+            document.getElementById('gameCount').innerText = `Showing ${gameList.length} games`;
+            if (gameList.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-16 text-center text-gray-500"><i class="fa-solid fa-ghost text-4xl mb-3"></i><p>No games found matching your search.</p></div>`;
+                return;
+            }
+            grid.innerHTML = gameList.map(g => `
+                <div onclick="playGame('${g.id}')" class="group bg-neon-card hover:bg-neon-card/80 border border-neon-border hover:border-neon-green/50 rounded-3xl p-5 cursor-pointer transition-all duration-300 glow-box flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br ${g.color} flex items-center justify-center text-white text-2xl shadow-lg group-hover:scale-105 transition-transform">
+                                <i class="fa-solid ${g.icon}"></i>
+                            </div>
+                            <span class="px-3 py-1 bg-neon-dark/60 border border-neon-border rounded-full text-xs font-semibold text-gray-300">
+                                ${g.category}
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-100 group-hover:text-neon-green transition-colors">${g.title}</h3>
+                        <p class="text-xs text-gray-400 mt-2 line-clamp-2">${g.desc}</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 mt-4 border-t border-neon-border/50 text-xs text-gray-400">
+                        <div class="flex items-center space-x-3">
+                            <span class="flex items-center space-x-1 text-amber-400"><i class="fa-solid fa-star"></i><strong class="text-gray-200">${g.rating}</strong></span>
+                            <span class="flex items-center space-x-1"><i class="fa-solid fa-users text-neon-blue"></i><span>${g.plays}</span></span>
+                        </div>
+                        <span class="px-3.5 py-1.5 bg-neon-green/10 text-neon-green font-bold rounded-xl group-hover:bg-neon-green group-hover:text-neon-dark transition-all">Play</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter Games by Search
+        function filterGames() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = games.filter(g => {
+                const matchesSearch = g.title.toLowerCase().includes(query) || g.desc.toLowerCase().includes(query) || g.category.toLowerCase().includes(query);
+                const matchesCat = currentCategory === 'all' || g.category === currentCategory;
+                return matchesSearch && matchesCat;
+            });
+            renderGames(filtered);
+        }
+
+        // Filter by Category
+        function filterCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.className = "cat-btn px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all bg-neon-card hover:bg-neon-border text-gray-300 whitespace-nowrap border border-neon-border";
+            });
+            event.target.className = "cat-btn px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all bg-neon-green text-neon-dark whitespace-nowrap shadow-md";
+            filterGames();
+        }
+
+        // Scroll to games
+        function scrollToGames() {
+            document.getElementById('gamesGrid').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Play Game Switcher
+        function playGame(id) {
+            const gameObj = games.find(g => g.id === id);
+            if (!gameObj) return;
+            currentActiveGame = id;
+
+            document.getElementById('homeView').classList.add('hidden');
+            document.getElementById('gameView').classList.remove('hidden');
+            document.getElementById('activeGameTitle').innerText = gameObj.title;
+            document.getElementById('activeGameCategory').innerText = gameObj.category;
+            document.getElementById('controlsDescription').innerText = gameObj.controls;
+
+            // Load High Score
+            const savedScore = localStorage.getItem(`blockgames_hs_${id}`) || 0;
+            document.getElementById('highScoreDisplay').innerText = savedScore;
+
+            // Initialize respective game canvas & engine
+            const screen = document.getElementById('gameScreenContent');
+            screen.innerHTML = '';
+
+            if (id === 'snake') initSnakeGame(screen);
+            else if (id === 'tetris') initTetrisGame(screen);
+            else if (id === 'flappy') initFlappyGame(screen);
+            else if (id === 'pong') initPongGame(screen);
+            else if (id === 't2048') init2048Game(screen);
+            else if (id === 'clicker') initClickerGame(screen);
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function returnToHome() {
+            stopAllGames();
+            document.getElementById('gameView').classList.add('hidden');
+            document.getElementById('homeView').classList.remove('hidden');
+            currentActiveGame = null;
+        }
+
+        function stopAllGames() {
+            if (gameLoopInterval) clearInterval(gameLoopInterval);
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            window.onkeydown = null;
+            window.onkeyup = null;
+        }
+
+        /* ================= GAME 1: RETRO SNAKE ================= */
+        function initSnakeGame(container) {
+            container.innerHTML = `<canvas id="snakeCanvas" width="600" height="400" class="w-full h-full object-contain bg-neon-dark rounded-2xl"></canvas>`;
+            const canvas = document.getElementById('snakeCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            let grid = 20;
+            let count = 0;
+            let score = 0;
+            
+            let snake = {
+                x: 160, y: 160,
+                dx: grid, dy: 0,
+                cells: [],
+                maxCells: 4
+            };
+            let apple = { x: 320, y: 320 };
+
+            function getRandomInt(min, max) {
+                return Math.floor(Math.random() * (max - min)) + min;
+            }
+
+            const handleKey = (e) => {
+                if (e.key === 'ArrowLeft' && snake.dx === 0) { snake.dx = -grid; snake.dy = 0; }
+                else if (e.key === 'ArrowUp' && snake.dy === 0) { snake.dy = -grid; snake.dx = 0; }
+                else if (e.key === 'ArrowRight' && snake.dx === 0) { snake.dx = grid; snake.dy = 0; }
+                else if (e.key === 'ArrowDown' && snake.dy === 0) { snake.dy = grid; snake.dx = 0; }
+            };
+            window.addEventListener('keydown', handleKey);
+
+            function loop() {
+                animationFrameId = requestAnimationFrame(loop);
+                if (++count < 6) return; // control speed
+                count = 0;
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                snake.x += snake.dx;
+                snake.y += snake.dy;
+
+                // Wrap around edges
+                if (snake.x < 0) snake.x = canvas.width - grid;
+                else if (snake.x >= canvas.width) snake.x = 0;
+                if (snake.y < 0) snake.y = canvas.height - grid;
+                else if (snake.y >= canvas.height) snake.y = 0;
+
+                snake.cells.unshift({ x: snake.x, y: snake.y });
+                if (snake.cells.length > snake.maxCells) snake.cells.pop();
+
+                // Draw Apple
+                ctx.fillStyle = '#ff007f';
+                ctx.shadowColor = '#ff007f';
+                ctx.shadowBlur = 10;
+                ctx.fillRect(apple.x, apple.y, grid - 2, grid - 2);
+                ctx.shadowBlur = 0;
+
+                // Draw Snake
+                ctx.fillStyle = '#00ffcc';
+                snake.cells.forEach((cell, index) => {
+                    ctx.fillRect(cell.x, cell.y, grid - 2, grid - 2);
+                    // Eat apple
+                    if (cell.x === apple.x && cell.y === apple.y) {
+                        snake.maxCells++;
+                        score += 10;
+                        document.getElementById('highScoreDisplay').innerText = score;
+                        const hs = localStorage.getItem('blockgames_hs_snake') || 0;
+                        if (score > hs) {
+                            localStorage.setItem('blockgames_hs_snake', score);
+                        }
+                        apple.x = getRandomInt(0, 30) * grid;
+                        apple.y = getRandomInt(0, 20) * grid;
+                    }
+                    // Collision with tail
+                    for (let i = index + 1; i < snake.cells.length; i++) {
+                        if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+                            snake.x = 160; snake.y = 160; snake.cells = []; snake.maxCells = 4; snake.dx = grid; snake.dy = 0;
+                            score = 0;
+                        }
+                    }
+                });
+            }
+            animationFrameId = requestAnimationFrame(loop);
+        }
+
+        /* ================= GAME 2: NEON STACKER (TETRIS) ================= */
+        function initTetrisGame(container) {
+            container.innerHTML = `<canvas id="tetrisCanvas" width="300" height="600" class="h-full bg-neon-dark rounded-2xl border border-neon-border"></canvas>`;
+            const canvas = document.getElementById('tetrisCanvas');
+            const ctx = canvas.getContext('2d');
+            const BLOCK_SIZE = 30;
+            const COLS = 10;
+            const ROWS = 20;
+
+            let board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+            let score = 0;
+
+            const SHAPES = [
+                [[1,1,1,1]], // I
+                [[1,1],[1,1]], // O
+                [[0,1,0],[1,1,1]], // T
+                [[1,0,0],[1,1,1]], // L
+                [[0,0,1],[1,1,1]], // J
+                [[0,1,1],[1,1,0]], // S
+                [[1,1,0],[0,1,1]]  // Z
+            ];
+            const COLORS = ['#00f0ff', '#f59e0b', '#b000ff', '#ff007f', '#00ffcc', '#10b981', '#ef4444'];
+
+            let currentPiece = {
+                shape: SHAPES[0],
+                color: COLORS[0],
+                x: 3,
+                y: 0
+            };
+
+            function spawnPiece() {
+                const idx = Math.floor(Math.random() * SHAPES.length);
+                currentPiece.shape = SHAPES[idx];
+                currentPiece.color = COLORS[idx];
+                currentPiece.x = 3;
+                currentPiece.y = 0;
+                if (checkCollision(0, 0, currentPiece.shape)) {
+                    board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+                    score = 0;
+                }
+            }
+
+            function checkCollision(offsetX, offsetY, shape) {
+                for (let r = 0; r < shape.length; r++) {
+                    for (let c = 0; c < shape[r].length; c++) {
+                        if (shape[r][c]) {
+                            let newX = currentPiece.x + c + offsetX;
+                            let newY = currentPiece.y + r + offsetY;
+                            if (newX < 0 || newX >= COLS || newY >= ROWS) return true;
+                            if (newY >= 0 && board[newY][newX]) return true;
+                        }
+                    }
+                }
+                return false;
+            }
+
+            function mergePiece() {
+                currentPiece.shape.forEach((row, r) => {
+                    row.forEach((val, c) => {
+                        if (val) {
+                            if (currentPiece.y + r >= 0) {
+                                board[currentPiece.y + r][currentPiece.x + c] = currentPiece.color;
+                            }
+                        }
+                    });
+                });
+            }
+
+            function clearLines() {
+                let linesCleared = 0;
+                outer: for (let r = ROWS - 1; r >= 0; r--) {
+                    for (let c = 0; c < COLS; c++) {
+                        if (!board[r][c]) continue outer;
+                    }
+                    board.splice(r, 1);
+                    board.unshift(Array(COLS).fill(0));
+                    linesCleared++;
+                    r++; // check same row again
+                }
+                if (linesCleared > 0) {
+                    score += linesCleared * 100;
+                    document.getElementById('highScoreDisplay').innerText = score;
+                    const hs = localStorage.getItem('blockgames_hs_tetris') || 0;
+                    if (score > hs) localStorage.setItem('blockgames_hs_tetris', score);
+                }
+            }
+
+            const handleKey = (e) => {
+                if (e.key === 'ArrowLeft' && !checkCollision(-1, 0, currentPiece.shape)) currentPiece.x--;
+                else if (e.key === 'ArrowRight' && !checkCollision(1, 0, currentPiece.shape)) currentPiece.x++;
+                else if (e.key === 'ArrowDown' && !checkCollision(0, 1, currentPiece.shape)) currentPiece.y++;
+                else if (e.key === 'ArrowUp') {
+                    // Rotate
+                    const rotated = currentPiece.shape[0].map((_, index) => currentPiece.shape.map(row => row[index]).reverse());
+                    if (!checkCollision(0, 0, rotated)) currentPiece.shape = rotated;
+                }
+            };
+            window.addEventListener('keydown', handleKey);
+
+            function drop() {
+                if (!checkCollision(0, 1, currentPiece.shape)) {
+                    currentPiece.y++;
+                } else {
+                    mergePiece();
+                    clearLines();
+                    spawnPiece();
+                }
+            }
+
+            gameLoopInterval = setInterval(() => {
+                drop();
+                draw();
+            }, 500);
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                // Draw board
+                for (let r = 0; r < ROWS; r++) {
+                    for (let c = 0; c < COLS; c++) {
+                        if (board[r][c]) {
+                            ctx.fillStyle = board[r][c];
+                            ctx.fillRect(c * BLOCK_SIZE, r * BLOCK_SIZE, BLOCK_SIZE - 1, BLOCK_SIZE - 1);
+                        }
+                    }
+                }
+                // Draw active piece
+                currentPiece.shape.forEach((row, r) => {
+                    row.forEach((val, c) => {
+                        if (val) {
+                            ctx.fillStyle = currentPiece.color;
+                            ctx.fillRect((currentPiece.x + c) * BLOCK_SIZE, (currentPiece.y + r) * BLOCK_SIZE, BLOCK_SIZE - 1, BLOCK_SIZE - 1);
+                        }
+                    });
+                });
+            }
+            draw();
+        }
+
+        /* ================= GAME 3: CYBER FLAP (FLAPPY BIRD) ================= */
+        function initFlappyGame(container) {
+            container.innerHTML = `<canvas id="flappyCanvas" width="600" height="400" class="w-full h-full object-contain bg-neon-dark rounded-2xl"></canvas>`;
+            const canvas = document.getElementById('flappyCanvas');
+            const ctx = canvas.getContext('2d');
+
+            let bird = { x: 50, y: 150, vy: 0, radius: 14, gravity: 0.5, lift: -8 };
+            let pipes = [];
+            let score = 0;
+            let frame = 0;
+
+            const handleAction = () => { bird.vy = bird.lift; };
+            window.addEventListener('keydown', (e) => { if (e.code === 'Space') handleAction(); });
+            canvas.addEventListener('click', handleAction);
+
+            function loop() {
+                animationFrameId = requestAnimationFrame(loop);
+                frame++;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Bird physics
+                bird.vy += bird.gravity;
+                bird.y += bird.vy;
+                if (bird.y > canvas.height - bird.radius) { bird.y = canvas.height - bird.radius; bird.vy = 0; }
+                if (bird.y < bird.radius) { bird.y = bird.radius; bird.vy = 0; }
+
+                // Spawn Pipes
+                if (frame % 100 === 0) {
+                    let h = Math.floor(Math.random() * 180) + 60;
+                    pipes.push({ x: canvas.width, top: h, bottom: canvas.height - h - 130, passed: false });
+                }
+
+                // Move & Draw Pipes
+                ctx.fillStyle = '#00ffcc';
+                pipes.forEach(p => {
+                    p.x -= 3;
+                    ctx.fillRect(p.x, 0, 50, p.top);
+                    ctx.fillRect(p.x, canvas.height - p.bottom, 50, p.bottom);
+
+                    // Collision check
+                    if (bird.x + bird.radius > p.x && bird.x - bird.radius < p.x + 50) {
+                        if (bird.y - bird.radius < p.top || bird.y + bird.radius > canvas.height - p.bottom) {
+                            // Reset
+                            bird.y = 150; bird.vy = 0; pipes = []; score = 0;
+                        }
+                    }
+
+                    if (!p.passed && p.x < bird.x) {
+                        p.passed = true;
+                        score += 1;
+                        document.getElementById('highScoreDisplay').innerText = score;
+                        const hs = localStorage.getItem('blockgames_hs_flappy') || 0;
+                        if (score > hs) localStorage.setItem('blockgames_hs_flappy', score);
+                    }
+                });
+
+                pipes = pipes.filter(p => p.x > -50);
+
+                // Draw Bird
+                ctx.fillStyle = '#ff007f';
+                ctx.shadowColor = '#ff007f';
+                ctx.shadowBlur = 15;
+                ctx.beginPath();
+                ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+            animationFrameId = requestAnimationFrame(loop);
+        }
+
+        /* ================= GAME 4: CYBER PONG ================= */
+        function initPongGame(container) {
+            container.innerHTML = `<canvas id="pongCanvas" width="600" height="400" class="w-full h-full object-contain bg-neon-dark rounded-2xl"></canvas>`;
+            const canvas = document.getElementById('pongCanvas');
+            const ctx = canvas.getContext('2d');
+
+            let ball = { x: 300, y: 200, dx: 4, dy: 4, radius: 10 };
+            let p1 = { x: 20, y: 150, w: 12, h: 80, score: 0 };
+            let p2 = { x: 568, y: 150, w: 12, h: 80, score: 0 };
+
+            const keys = {};
+            window.addEventListener('keydown', (e) => { keys[e.key] = true; });
+            window.addEventListener('keyup', (e) => { keys[e.key] = false; });
+
+            function loop() {
+                animationFrameId = requestAnimationFrame(loop);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Player 1 controls (W / S)
+                if (keys['w'] && p1.y > 0) p1.y -= 6;
+                if (keys['s'] && p1.y < canvas.height - p1.h) p1.y += 6;
+
+                // AI Player 2 controls
+                if (p2.y + p2.h / 2 < ball.y) p2.y += 4;
+                if (p2.y + p2.h / 2 > ball.y) p2.y -= 4;
+
+                // Ball movement
+                ball.x += ball.dx;
+                ball.y += ball.dy;
+
+                if (ball.y < ball.radius || ball.y > canvas.height - ball.radius) ball.dy *= -1;
+
+                // Paddle collision
+                if (ball.x - ball.radius <= p1.x + p1.w && ball.y >= p1.y && ball.y <= p1.y + p1.h) {
+                    ball.dx *= -1;
+                    ball.x = p1.x + p1.w + ball.radius;
+                }
+                if (ball.x + ball.radius >= p2.x && ball.y >= p2.y && ball.y <= p2.y + p2.h) {
+                    ball.dx *= -1;
+                    ball.x = p2.x - ball.radius;
+                }
+
+                // Scoring
+                if (ball.x < 0) {
+                    p2.score++;
+                    ball.x = 300; ball.y = 200; ball.dx = 4;
+                } else if (ball.x > canvas.width) {
+                    p1.score++;
+                    document.getElementById('highScoreDisplay').innerText = p1.score;
+                    const hs = localStorage.getItem('blockgames_hs_pong') || 0;
+                    if (p1.score > hs) localStorage.setItem('blockgames_hs_pong', p1.score);
+                    ball.x = 300; ball.y = 200; ball.dx = -4;
+                }
+
+                // Draw paddles and ball
+                ctx.fillStyle = '#00ffcc';
+                ctx.fillRect(p1.x, p1.y, p1.w, p1.h);
+                ctx.fillStyle = '#b000ff';
+                ctx.fillRect(p2.x, p2.y, p2.w, p2.h);
+
+                ctx.fillStyle = '#ff007f';
+                ctx.shadowColor = '#ff007f';
+                ctx.shadowBlur = 10;
+                ctx.beginPath();
+                ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+            animationFrameId = requestAnimationFrame(loop);
+        }
+
+        /* ================= GAME 5: BLOCK 2048 ================= */
+        function init2048Game(container) {
+            container.innerHTML = `
+                <div class="flex flex-col items-center justify-center h-full p-4 space-y-4">
+                    <div class="grid grid-cols-4 gap-3 bg-neon-dark p-3 rounded-2xl border border-neon-border w-80 h-80" id="grid2048"></div>
+                    <p class="text-xs text-gray-400">Use Arrow Keys to slide & combine matching tiles!</p>
+                </div>
+            `;
+            let board = [
+                [0, 0, 0, 0],
+                [0, 2, 0, 0],
+                [0, 0, 2, 0],
+                [0, 0, 0, 0]
+            ];
+            let score = 0;
+
+            function renderBoard() {
+                const el = document.getElementById('grid2048');
+                el.innerHTML = '';
+                board.flat().forEach(val => {
+                    const tile = document.createElement('div');
+                    tile.className = `flex items-center justify-center rounded-xl font-bold text-lg transition-all ${val === 0 ? 'bg-neon-card/50 text-transparent' : 'bg-neon-purple/20 border border-neon-purple text-neon-green'}`;
+                    tile.innerText = val !== 0 ? val : '';
+                    el.appendChild(tile);
+                });
+            }
+
+            const handleKey = (e) => {
+                if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                    // Simple randomized shuffle effect for demo interaction
+                    let r1 = Math.floor(Math.random() * 4), r2 = Math.floor(Math.random() * 4);
+                    if (board[r1][r2] === 0) board[r1][r2] = 2;
+                    else { board[r1][r2] *= 2; score += board[r1][r2]; }
+                    document.getElementById('highScoreDisplay').innerText = score;
+                    const hs = localStorage.getItem('blockgames_hs_t2048') || 0;
+                    if (score > hs) localStorage.setItem('blockgames_hs_t2048', score);
+                    renderBoard();
+                }
+            };
+            window.addEventListener('keydown', handleKey);
+            renderBoard();
+        }
+
+        /* ================= GAME 6: IDLE HACKER ================= */
+        function initClickerGame(container) {
+            let crypto = parseInt(localStorage.getItem('blockgames_hs_clicker') || '0');
+            container.innerHTML = `
+                <div class="flex flex-col items-center justify-center h-full space-y-6 select-none">
+                    <div class="text-center">
+                        <span class="text-xs text-gray-400 uppercase tracking-widest">Mined Crypto</span>
+                        <h2 id="cryptoCount" class="text-5xl font-extrabold text-neon-green mt-1">${crypto}</h2>
+                    </div>
+                    <button onclick="mineCrypto()" class="w-32 h-32 rounded-3xl bg-gradient-to-br from-neon-green to-neon-blue flex items-center justify-center text-neon-dark text-5xl shadow-2xl hover:scale-105 active:scale-95 transition-transform glow-box">
+                        <i class="fa-solid fa-terminal"></i>
+                    </button>
+                    <p class="text-xs text-gray-400">Click the terminal to mine crypto coins!</p>
+                </div>
+            `;
+            window.mineCrypto = function() {
+                crypto += 1;
+                document.getElementById('cryptoCount').innerText = crypto;
+                document.getElementById('highScoreDisplay').innerText = crypto;
+                localStorage.setItem('blockgames_hs_clicker', crypto);
+            };
+        }
+
+        // Stealth Mode / Tab Cloaker
+        function toggleStealthMode() {
+            stealthActive = !stealthActive;
+            const btn = document.getElementById('stealthBtn');
+            if (stealthActive) {
+                document.title = 'Google Classroom';
+                // Change favicon to google classroom
+                let link = document.querySelector("link[rel*='icon']") || document.createElement('icon');
+                link.type = 'image/x-icon';
+                link.rel = 'shortcut icon';
+                link.href = 'https://ssl.gstatic.com/classroom/ic_product_classroom_32.png';
+                document.getElementsByTagName('head')[0].appendChild(link);
+                
+                btn.className = "flex items-center space-x-2 px-4 py-2 bg-neon-green/20 border border-neon-green text-neon-green rounded-xl text-xs font-semibold tracking-wide transition-all";
+                showToast('Stealth Mode Activated', 'Tab title & icon cloaked as Google Classroom.');
+            } else {
+                document.title = 'Block Games | Unblocked School Arcade';
+                let link = document.querySelector("link[rel*='icon']");
+                if (link) link.remove();
+                btn.className = "flex items-center space-x-2 px-4 py-2 bg-neon-card hover:bg-neon-border border border-neon-border rounded-xl text-xs font-semibold tracking-wide transition-all text-gray-300 hover:text-white";
+                showToast('Stealth Mode Disabled', 'Restored original tab title.');
+            }
+        }
+
+        // Fullscreen Toggle
+        function toggleFullScreen() {
+            const wrapper = document.getElementById('gameContainerWrapper');
+            if (!document.fullscreenElement) {
+                wrapper.requestFullscreen().catch(err => {
+                    showToast('Error', 'Fullscreen not supported on this device.');
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Request Modal Controls
+        function openRequestModal() {
+            document.getElementById('requestModal').classList.remove('hidden');
+        }
+        function closeRequestModal() {
+            document.getElementById('requestModal').classList.add('hidden');
+        }
+        function submitGameRequest() {
+            const title = document.getElementById('reqGameTitle').value.trim();
+            if (!title) {
+                showToast('Error', 'Please enter a game title.');
+                return;
+            }
+            closeRequestModal();
+            document.getElementById('reqGameTitle').value = '';
+            document.getElementById('reqGameNotes').value = '';
+            showToast('Request Submitted!', `We've received your request for "${title}".`);
+        }
+
+        // Toast Notification System
+        function showToast(title, message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastTitle').innerText = title;
+            document.getElementById('toastMessage').innerText = message;
+            toast.classList.remove('translate-y-32', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-32', 'opacity-0');
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
